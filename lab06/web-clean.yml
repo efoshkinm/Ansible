@@ -1,0 +1,30 @@
+---
+- name: WEB SERVER ELIMINATION
+  hosts: all
+  vars: 
+    rpm: nginx
+    rule: http
+  vars_files: vars.yml
+  tasks:
+    - name: REMOVE CONTENT
+      file:
+        path: "{{ files[2] }}"
+        state: absent
+
+    - name: REMOVE WEB SERVER
+      ansible.builtin.yum:
+        name:
+          - "{{ rpm }}"
+        state: absent
+
+    - name: BLOCK ACCESS TO WEB SERVER
+      ansible.builtin.firewalld:
+        service: "{{ rule }}"
+        state: disabled
+        immediate: true
+        permanent: true
+
+    
+
+
+...

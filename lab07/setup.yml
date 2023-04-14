@@ -1,0 +1,7 @@
+---
+yum_state: latest
+svc_state: started
+svc_enabled: yes
+fw_state: enabled 
+
+...

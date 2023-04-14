@@ -1,0 +1,10 @@
+---
+- name: WEB CONTENT CLEANUP
+  hosts: centos
+  tasks:
+    - name: REMOVE WEB CONTENT 
+      ansible.builtin.file:
+        path: "{{ c_dir }}/{{ c_file }}"
+        state: absent
+
+...

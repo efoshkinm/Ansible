@@ -1,0 +1,27 @@
+---
+- name: SETUP WEB SERVER
+  hosts: test
+  vars_files: vars.yml
+  tasks:
+    - name: INSTALL RPM
+      yum: 
+        name: "{{ rpm }}"
+        state: latest
+
+    - name: SETUP SVC
+      ansible.builtin.service:
+        name: "{{ svc }}"
+        state: started
+        enabled: true
+    
+    - name: ALLOW HTTP ACCESS
+      ansible.builtin.firewalld:
+        service: "{{ rule }}"
+        state: enabled
+        immediate: true
+        permanent: true
+
+    
+
+
+...

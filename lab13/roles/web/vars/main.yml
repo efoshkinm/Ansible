@@ -1,0 +1,8 @@
+---
+# vars file for web
+rpm: httpd
+svc: httpd
+idx: /var/www/html/index.html
+rule: http
+
+...

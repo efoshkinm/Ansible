@@ -1,0 +1,13 @@
+---
+- name: SETUP WEB SERVER CONTENT
+  hosts: web 
+  vars:
+    idx: /var/www/html/index.html
+  tasks:
+    - name: DEPLOY WEB CONTENT 
+      template: 
+        src: index.j2
+        dest: "{{ idx }}"
+    
+
+...

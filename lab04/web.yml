@@ -1,0 +1,17 @@
+---
+- name: WEB SERVER SETUP
+  hosts: web
+  tasks:
+    - name: INSTALL WEB SERVER
+      command: yum install nginx -y
+
+    - name: ENABLE & START WEB SERVER
+      command: systemctl enable nginx --now
+
+    - name: ALLOW ACCESS TO WEB SERVER
+      command: firewall-cmd --add-service=http --permanent
+
+    - name: RELOAD FIREWALL
+      command: firewall-cmd --complete-reload
+
+...

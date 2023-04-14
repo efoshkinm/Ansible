@@ -1,0 +1,6 @@
+all:
+  children:
+    srv:
+      children:
+        srv_gui:
+        srv_tui:

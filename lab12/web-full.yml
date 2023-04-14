@@ -1,0 +1,15 @@
+---
+- name: SETUP WEB SERVER
+  hosts: prod
+  vars_files: vars.yml
+  tasks:
+    - name: INSTALL WEB SERVER
+      ansible.builtin.include_tasks: 
+        setup-tasks.yml
+
+    - name: SETUP WEB CONTENT
+      ansible.builtin.include_tasks:
+        content-tasks.yml
+      
+
+...

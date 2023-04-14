@@ -1,0 +1,27 @@
+---
+- name: WEB SERVER
+  hosts: centos
+  vars_files: cleanup.yml
+  tasks:
+    - name: MANAGE RPM
+      ansible.builtin.yum:
+        name:
+          - "{{rpm}}"
+        state: "{{ yum_state }}"
+
+    # - name: MANAGE SERVICE
+    #   ansible.builtin.service:
+    #     name: "{{svc}}"
+    #     state: "{{svc_state}}"
+    #     enabled: "{{svc_enabled}}"
+
+    - name: MANAGE FIREWALL
+      firewalld:
+        service: "{{ fw }}"
+        state: "{{ fw_state }}"
+        immediate: true
+        permanent: true
+
+
+
+...

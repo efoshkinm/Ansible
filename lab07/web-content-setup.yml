@@ -1,0 +1,14 @@
+---
+- name: WEB CONTENT SETUP
+  hosts: centos
+  vars:
+    html: |
+      <h2>Apache HTTP Server on {{ ansible_hostname }}({{ ansible_default_ipv4.address }})</h2>
+      <p>Powered by {{ ansible_distribution }} {{ ansible_distribution_major_version }}.</p>
+  tasks:
+    - name: CREATE WEB CONTENT
+      copy: 
+        dest: "{{ c_dir }}/{{ c_file }}"
+        content: "{{ html }}"
+
+...

@@ -1,0 +1,38 @@
+---
+- name: WEBCONTENT CLEANUP  
+  hosts: web
+  tasks: 
+    - name: ROMEVE 404.html
+      file:
+        path: /usr/share/nginx/html/404.html
+        state: absent
+
+    - name: REMOVE 50x.html
+      file: 
+        path: /usr/share/nginx/html/50x.html
+        state: absent
+    
+    - name: REMOVE index.html
+      file:
+        path: /usr/share/nginx/html/index.html
+        state: absent
+      
+    - name: REMOVE nginx-logo.png
+      file: 
+        path: /usr/share/nginx/html/nginx-logo.png
+        state: absent
+    
+    - name: REMOVE poweredby.png
+      file: 
+        path: /usr/share/nginx/html/poweredby.png
+        state: absent
+      
+    - name: REMOVE data.html
+      file: 
+        path: /usr/share/nginx/html/data.html
+        state: absent
+        
+    
+
+
+...

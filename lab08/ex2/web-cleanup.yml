@@ -1,0 +1,45 @@
+---
+- name: REMOVE WEB SERVER
+  hosts: apache 
+  vars: 
+    rpm: httpd 
+    rule: 
+      - 80/tcp
+      - 81/tcp
+    apache_dir:
+      - /var/www 
+      - /etc/httpd
+    config_dir: /etc/httpd/conf.d
+  tasks:
+    - name: MANAGE RPM
+      ansible.builtin.yum:
+        name: "{{ rpm }}"
+        state: absent
+
+    - name: REMOVE APACHE DIR-1
+      file: 
+        path: "{{ apache_dir[0] }}"
+        state: absent
+
+    - name: REMOVE APACHE DIR-2
+      ansible.builtin.file:
+        path: "{{ apache_dir[1] }}"
+        state: absent
+
+    - name: MANAGE FIREWALL-1
+      ansible.builtin.firewalld:
+        port: "{{ rule[0] }}"
+        state: disabled
+        immediate: true
+        permanent: true
+
+    - name: MANAGE FIREWALL-2
+      ansible.builtin.firewalld:
+        port: "{{ rule[1] }}"
+        state: disabled
+        immediate: true
+        permanent: true
+        
+    
+
+...

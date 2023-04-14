@@ -1,0 +1,17 @@
+[centos8]
+c8-server0[1:2]
+
+[centos7]
+192.168.0.21
+
+[centos:children]
+centos7 
+centos8 
+
+[centos:vars]
+rpm=httpd
+svc=httpd
+fw=http
+c_dir=/var/www/html
+c_file=index.html
+

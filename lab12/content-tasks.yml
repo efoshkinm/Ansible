@@ -1,0 +1,9 @@
+---
+- name: DEPLOY WEB CONTENT 
+  template:
+    src: index.j2
+    dest: "{{ idx }}"
+  vars:
+    idx: /usr/share/nginx/html/index.html
+
+...

@@ -1,0 +1,34 @@
+---
+- name: WEB SERVER SETUP
+  hosts: web
+  tasks:
+    - name: INSTALL WEB SERVER
+      shell: yum install httpd -y
+
+    - name: ENABLE & START WEB SERVER
+      command: systemctl enable httpd --now
+
+    - name: ALLOW ACCESS TO WEB SERVER
+      command: firewall-cmd --add-service=http --permanent
+
+    - name: RELOAD FIREWALL
+      command: firewall-cmd --complete-reload
+
+    - name: dddd
+      user:
+        name: frank
+        state: present
+    
+    - name: Install soft
+      yum:
+        name:
+          - mc
+          - htop
+          - lsof
+        state: installed
+
+
+
+
+
+...

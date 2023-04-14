@@ -1,0 +1,24 @@
+---
+# tasks file for web
+- name: INSTALL RPM
+  yum: 
+    name: "{{ rpm }}"
+    state: latest
+
+- name: SETUP SVC
+  service: 
+    name: "{{ svc }}"
+    state: started
+    enabled: true
+
+- name: ALLOW ACCESS HTTP
+  ansible.builtin.firewalld:  
+    service: "{{ rule }}"
+    state: enabled
+    immediate: true
+    permanent: true
+
+- name: DEPLOY WEB CONTENT
+  template: 
+    src: index.j2
+    dest: "{{ idx }}"

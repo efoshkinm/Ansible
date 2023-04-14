@@ -1,0 +1,6 @@
+---
+yum_state: absent
+fw_state: disabled
+
+
+...

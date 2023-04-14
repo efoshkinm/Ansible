@@ -1,0 +1,14 @@
+---
+- name: DEPLOY WEB ROLE
+  hosts: c8-server02
+  vars: 
+    rpm: nginx
+    svc: nginx
+    idx: /usr/share/nginx/html/index.html
+  roles:
+    - web
+
+
+
+
+...

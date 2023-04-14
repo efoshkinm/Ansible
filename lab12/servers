@@ -1,0 +1,5 @@
+[test]
+c8-server01
+
+[prod]
+c8-server02

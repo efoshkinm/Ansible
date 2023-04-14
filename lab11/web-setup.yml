@@ -1,0 +1,33 @@
+---
+- name: SETUP WEB SERVER 
+  hosts: web
+  vars:
+    rpm: 
+      - httpd
+      - firewalld
+    svc:
+      - httpd
+      - firewalld
+    rule: http
+  tasks:
+    - name: INSTALL PACKAGES
+      yum: 
+        name:
+          - "{{ item }}"
+        state: latest
+      loop: "{{ rpm }}"
+    - name: SETUP SERVICE
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      loop: "{{ svc }}"
+    - name: ALLOW HTTP ACCESS
+      ansible.builtin.firewalld:
+        service: "{{ rule }}"
+        state: enabled
+        immediate: true
+        permanent: true
+    
+
+...

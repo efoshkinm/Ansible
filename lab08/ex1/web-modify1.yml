@@ -1,0 +1,43 @@
+---
+- name: SETUP WEB SERVER
+  hosts: nginx
+  vars_files: vars.yml
+  vars: 
+    content: 
+      dir: /srv/nginx
+      file: index.html
+      data: "<h1>{{ ansible_fqdn }}</h1>\n"
+    config: /etc/nginx/nginx.conf
+  tasks:
+    - name: CREATE WEB CONTENT DIR
+      ansible.builtin.file:
+        path: "{{ content.dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        setype: httpd_sys_content_t
+
+    - name: CREATE WEB CONTENT
+      ansible.builtin.copy:
+        dest: "{{ content.dir }}/{{ content.file }}"
+        content: "{{ content.data }}"
+        owner: root
+        group: root
+        mode: 0644
+        setype: httpd_sys_content_t
+
+    - name: CHANGE CONFIG
+      ansible.builtin.lineinfile:
+        path: "{{ config }}"
+        regexp: '^(\s*)root'
+        line: '\1root {{ content.dir }};'
+        backrefs: true
+
+    - name: RESTART SERVICE
+      ansible.builtin.service:
+        name: "{{ svc }}"
+        state: restarted
+
+
+...

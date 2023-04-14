@@ -1,0 +1,39 @@
+---
+- name: SETUP WEB SERVER
+  hosts: apache
+  vars: 
+    rpm: httpd
+    svc: httpd
+    rule: 80/tcp
+  tasks:
+    - name: MANAGE RPM
+      ansible.builtin.yum:
+        name:
+          - "{{ rpm }}"
+        state: present
+    - name: MANAGE SERVICE
+      ansible.builtin.service:
+        name: "{{ svc }}"
+        state: started
+        enabled: true
+    
+    - name: MANAGE FIREWALL
+      ansible.builtin.firewalld:
+        port: "{{ rule }}"
+        state: enabled
+        immediate: true
+        permanent: true
+
+    - name: CREATE WEB CONTENT
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: |
+          <h2> Apache HTTP Server </h2>
+          <p> Default Web Site </p>
+          <p> Hello everyone! </p>
+
+    
+        
+
+
+...

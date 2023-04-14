@@ -1,0 +1,5 @@
+all:
+  children:
+    nginx:
+      hosts:
+        c8-server01:

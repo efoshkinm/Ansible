@@ -1,0 +1,38 @@
+---
+- name: SERVER01 WEB DATA SETUP
+  hosts: c8-server01
+  tasks:
+    - name: CREATE WEB DATA
+      copy: 
+        dest: /usr/share/nginx/html/data.html
+        content: |
+          <h2>c8-server01</h2>
+        
+- name: SERVER02 WEB DATA SETUP
+  hosts: c8-server02
+  tasks:
+    - name: CREATE WEB DATA
+      copy: 
+        dest: /usr/share/nginx/html/data.html
+        content: "<h2>c8-server02</h2>\n"
+        
+- name: WEB CONTENT SETUP
+  hosts: web
+  tasks:
+    - name: SETUP WEB DATA PERMISSIONS
+      file:
+        path: /usr/share/nginx/html/data.html
+        state: touch
+        owner: nginx
+        group: nginx
+        mode: '0444'
+    
+    - name: SETUP SIMBOLIC LINK TO DATA
+      file:
+        src: /usr/share/nginx/html/data.html
+        dest: /usr/share/nginx/html/index.html
+        state: link
+
+    
+
+...

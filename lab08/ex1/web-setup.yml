@@ -1,0 +1,26 @@
+---
+- name: SETUP WEB SERVER
+  hosts: nginx
+  vars_files: vars.yml
+  tasks:
+    - name: MANAGE RPM
+      ansible.builtin.yum:
+        name:
+          - "{{ rpm }}"
+        state: present
+
+    - name: MANAGE SERVICE
+      ansible.builtin.service:
+        name: "{{ svc }}"
+        state: started
+        enabled: true
+
+    - name: MANAGE FIREWALL
+      ansible.builtin.firewalld:
+        service: "{{ rule }}"
+        state: enabled
+        immediate: true
+        permanent: true
+        
+
+...

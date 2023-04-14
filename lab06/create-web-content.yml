@@ -1,0 +1,11 @@
+---
+- name: WEB CONTENT SETUP
+  hosts: all
+  vars_files: vars.yml
+  tasks:
+    - name: CREATE WEB CONTENT
+      copy: 
+        dest: "{{ files[2] }}"
+        content: "{{ content }}"
+        
+...

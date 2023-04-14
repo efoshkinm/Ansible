@@ -1,0 +1,36 @@
+---
+- name: REMOVE WEB SERVER
+  hosts: nginx
+  vars_files: vars.yml
+  vars: 
+    content_dir: /srv/nginx
+  tasks:
+    - name: MANAGE RPM
+      ansible.builtin.yum:
+        name:
+          - "{{ rpm }}"
+        state: absent
+
+    - name: REMOVE WEB CONTENT DIR
+      ansible.builtin.file:
+        path: "{{ content_dir }}"
+        state: absent
+
+    - name: MANAGE FIREWALL -1
+      ansible.builtin.firewalld:
+        service: "{{ rule }}"
+        state: disabled
+        immediate: true
+        permanent: true
+
+    - name: MANAGE FIREWALL -2
+      ansible.builtin.firewalld:
+        service: 81/tcp
+        state: disabled
+        immediate: true
+        permanent: true
+
+    
+
+
+...

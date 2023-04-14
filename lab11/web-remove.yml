@@ -1,0 +1,27 @@
+---
+- name: REMOVE WEB SERVER
+  hosts: web
+  vars: 
+    rpm: httpd
+    rule: http 
+    file: /var/www/html/index.html
+  tasks:
+    - name: REMOVE PACKAGE
+      yum:
+        name: "{{ rpm }}"
+        state: absent
+    
+    - name: BLOCK HTTP ACCESS
+      ansible.builtin.firewalld:
+        service: "{{ rule }}"
+        state: disabled
+        immediate: true
+        permanent: true
+
+    - name: REMOVE WEB SERVER
+      ansible.builtin.file:
+        path: "{{ file }}"
+        state: absent
+
+
+...

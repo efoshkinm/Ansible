@@ -1,0 +1,30 @@
+---
+- name: WEB SERVER SETUP
+  hosts: all
+  vars:
+    rpm: nginx
+    svc: nginx
+    rule: http
+  tasks:
+    - name: INSTALL WEB SERVER
+      ansible.builtin.yum:
+        name:
+          - "{{ rpm }}"
+        state: latest
+
+    - name: ENABLE & START WEB SERVER
+      ansible.builtin.service:
+        name: "{{ svc }}"
+        state: started
+        enabled: true
+
+    - name: ALLOW ACCESS TO WEB SERVER
+      ansible.builtin.firewalld:
+        service: "{{ rule }}"
+        state: enabled
+        immediate: true
+        permanent: true
+      
+    
+
+...

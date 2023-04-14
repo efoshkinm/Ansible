@@ -1,0 +1,8 @@
+---
+- name: DEPLOY WEB ROLE
+  hosts: c8-server01 
+  roles:
+    - web
+
+
+...

@@ -1,0 +1,31 @@
+---
+- name: TUNE WEB SERVER
+  hosts: nginx
+  vars_files: vars.yml
+  vars:
+    config: /etc/nginx/nginx.conf
+  tasks:
+    - name: CHANGE CONFIG - DISABLE IP4 & IP6
+      ansible.builtin.lineinfile:
+        path: "{{ config }}"
+        regexp: '^(\s*)listen'
+        state: absent
+
+    - name: CHANGE CONFIG - SETUP NEW IP4 PORT
+      ansible.builtin.lineinfile:
+        path: "{{ config }}"
+        insertafter: '^(\s*)server_name'
+        line: 'listen 81 default_server;'
+
+    - name: RESTART SERVICE
+      ansible.builtin.service:
+        name: "{{ svc }}"
+        state: restarted
+
+    - name: MANAGE FIREWALL
+      ansible.builtin.firewalld:
+        port: 81/tcp
+        state: enabled
+        immediate: true
+        permanent: true
+...

@@ -1,0 +1,19 @@
+---
+- name: WEB SERVER REMOVAL
+  hosts: web
+  vars_files: vars.yml
+  tasks:
+    - name: REMOVE RPM
+      yum: 
+        name:
+          - "{{ rpm[0] }}"
+        state: absent
+
+    - name: BLOCK HTTP ACCESS
+      ansible.builtin.firewalld:
+        service: "{{ rule }}"
+        state: disabled
+        immediate: true
+        permanent: true
+    
+...

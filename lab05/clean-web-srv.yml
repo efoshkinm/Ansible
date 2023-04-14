@@ -1,0 +1,21 @@
+---
+- name: WEB SERVER ELIMINATION
+  hosts: srv 
+  tasks:
+    - name: REMOVE WEB SERVER
+      yum: 
+        name: httpd
+        state: absent
+
+    - name: BLOCK ACCESS TO WEB SERVER
+      firewalld: 
+        service: http
+        permanent: true
+        immediate: true
+        state: disabled
+
+    - name: REMOVE WEB CONTENT 
+      ansible.builtin.file:
+        path: /var/www/html/index.html
+        state: absent
+...

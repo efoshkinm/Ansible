@@ -1,0 +1,30 @@
+---
+- name: SETUP WEB SERVER
+  hosts: web
+  vars_files: vars.yml
+  vars: 
+    content:  "<h2>DEMO WEBSERVER</h2>"
+  tasks:
+    - name: CREATE WEB CONTENT
+      ansible.builtin.lineinfile:
+        line: "{{ content }}"
+        path: "{{ files[2] }}"
+        create: true
+      when: ansible_os_family =='RedHat'
+    - name: ADD WEB CONTENT SERVER 1
+      ansible.builtin.lineinfile:
+        insertafter: "{{ content }}"
+        line: <p>SERVER 01</p>
+        path: "{{ files[2] }}"
+      when: ansible_nodename == 'c8-server01'
+    - name: ADD WEB CONTENT SERVER 2
+      ansible.builtin.lineinfile:
+        insertafter: "{{ content }}"
+        line: <p>SERVER 02</p>
+        path: "{{ files[2] }}"
+      when: ansible_nodename == 'c8-server02'
+
+
+    
+
+...

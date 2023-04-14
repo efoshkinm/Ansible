@@ -1,0 +1,77 @@
+---
+- name: SETUP CUSTOM WEB SITE
+  hosts: apache
+  vars:
+    svc: httpd
+    rule: 81/tcp
+    content_dir: /var/www/html1
+    index: "{{ content_dir }}/index.html"
+    config_dir: /etc/httpd/conf.d
+    config: 
+      - "{{ config_dir }}/vhost1.conf"
+      - "{{ config_dir }}/vhost2.conf"
+  tasks: 
+    - name: CREATE CUSTOM CONTENT DIR
+      ansible.builtin.file:
+        path: "{{ content_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: CREATE CUSTOM WEB CONTENT
+      ansible.builtin.copy:
+        dest: "{{ index }}"
+        content: |
+          <h2> Apache HTTP Server </h2>
+          <p> Custom Web Site </p>
+          <p> Hello Everyone! </p>
+        owner: root
+        group: root
+        mode: 0644
+        setype: httpd_sys_content_t
+
+    - name: CHANGE CONFIG
+      ansible.builtin.lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: Listen 81
+        insertafter: Listen 80
+        line: Listen 81
+
+    - name: CREATE NEW CONFIG-1
+      ansible.builtin.blockinfile:
+        path: "{{ config[0] }}"
+        create: true
+        block: |
+          <Virtualhost *:80>
+              ServerAdmin Student@11-100.local
+              DocumentRoot "/var/www/html"
+              ServerName c8-server01.11-100.local
+          </VirtualHost>
+
+    - name: CREATE NEW CONFIG-2
+      ansible.builtin.blockinfile:
+        path: "{{ config[1] }}"
+        create: true
+        block: |
+          <VirtualHost *:81>
+              ServerAdmin Student@11-100.local
+              DocumentRoot "{{ content_dir }}"
+              ServerName c8-server01.11-100.local
+          </Virtualhost>
+    
+    - name: MANAGE SERVICE
+      ansible.builtin.service:
+        name: "{{ svc }}"
+        state: restarted
+
+    - name: MANAGE FIREWALL
+      ansible.builtin.firewalld:
+        port: "{{ rule }}"
+        state: enabled
+        immediate: true
+        permanent: true
+    
+
+
+...

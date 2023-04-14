@@ -1,0 +1,23 @@
+---
+- name: INSTALL RPM
+  yum: 
+    name: "{{ rpm }}"
+    state: latest
+
+- name: SETUP SVC
+  ansible.builtin.service:
+    name: "{{ svc }}"
+    state: started
+    enabled: true
+
+- name: ALLOW HTTP ACCESS
+  ansible.builtin.firewalld:
+    service: "{{ rule }}"
+    state: enabled
+    immediate: true
+    permanent: true
+
+    
+
+
+...

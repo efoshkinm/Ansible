@@ -1,0 +1,15 @@
+---
+dir: /usr/share/nginx/html
+files: 
+  - "{{ dir }}/404.html"
+  - "{{ dir }}/50x.html"
+  - "{{ dir }}/index.html"
+  - "{{ dir }}/nginx-logo.png"
+  - "{{ dir }}/poweredby.png"
+content: | 
+  <h1>NGINX</h1>
+  <p>Powered by Ansible</p>
+  
+
+
+...

@@ -1,0 +1,35 @@
+---
+- name: WEB CONTENT CLEANUP
+  hosts: all
+  vars_files: vars.yml
+  tasks:
+    - name: REMOVE 404.html
+      file: 
+        path: "{{ files[0] }}"
+        state: absent
+
+    - name: REMOVE 50x.html
+      ansible.builtin.file:
+        path: "{{ files[1] }}"
+        state: absent
+
+    - name: REMOVE index.html
+      ansible.builtin.file: 
+        path: "{{ files[2] }}"
+        state: absent
+ 
+    - name: REMOVE nginx-log.png
+      ansible.builtin.file: 
+        path: "{{ files[3] }}"
+        state: absent
+
+    - name: REMOVE poweredby.png
+      ansible.builtin.file:
+        path: "{{ files[4] }}"
+        state: absent
+
+    
+    
+
+
+...

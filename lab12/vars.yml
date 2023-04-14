@@ -1,0 +1,7 @@
+---
+rule: http
+rpm: nginx
+svc: nginx
+
+
+...
